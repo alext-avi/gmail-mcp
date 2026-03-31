@@ -1354,15 +1354,15 @@ const main = async () => {
   const transport = new StdioServerTransport()
   await stdioServer.connect(transport)
 
-  // Streamable HTTP Server (only when explicitly enabled)
-  const mcpHttpEnabled = process.env.MCP_HTTP === 'true'
-  if (mcpHttpEnabled) {
+  // Streamable HTTP Server (enabled by default; set MCP_HTTP=false to disable)
+  const mcpHttpDisabled = process.env.MCP_HTTP === 'false'
+  if (!mcpHttpDisabled) {
     const { app } = createStatefulServer(createServer)
     app.listen(PORT, () => {
       process.stderr.write(`[gmail-mcp] HTTP transport enabled on port ${PORT}\n`)
     })
   } else {
-    process.stderr.write('[gmail-mcp] HTTP transport disabled (set MCP_HTTP=true to enable)\n')
+    process.stderr.write('[gmail-mcp] HTTP transport disabled (MCP_HTTP=false)\n')
   }
 }
 
