@@ -1354,9 +1354,11 @@ const main = async () => {
   const transport = new StdioServerTransport()
   await stdioServer.connect(transport)
 
-  // Streamable HTTP Server
-  const { app } = createStatefulServer(createServer)
-  app.listen(PORT)
+  // Streamable HTTP Server (only when explicitly enabled)
+  if (process.env.MCP_HTTP === 'true') {
+    const { app } = createStatefulServer(createServer)
+    app.listen(PORT)
+  }
 }
 
 main()
